@@ -1,0 +1,164 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ورود / ثبت‌نام دستفروش‌ها</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Vazirmatn"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#2dd4bf',
+              accent: '#fbbf24',
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(251, 191, 36, 0.12), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(125, 211, 252, 0.1), transparent 35%);
+      filter: blur(40px);
+      z-index: -1;
+    }
+  </style>
+</head>
+<body class="font-body min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center px-4 py-10 ">
+  <main class="max-w-5xl w-full grid gap-8 lg:grid-cols-[1.1fr_1fr] items-center">
+    <section class="space-y-6">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-teal-200 ring-1 ring-teal-400/30">
+        <span class="inline-block h-2 w-2 rounded-full bg-teal-300"></span>
+        مخصوص دستفروش‌ها
+      </div>
+      <div class="space-y-4">
+        <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight">ورود و ثبت‌نام ساده برای فروشنده‌های سیار</h1>
+        <p class="text-slate-300 leading-relaxed">فرم سبک، واکنش‌گرا و آماده اتصال به API. روی موبایل و دسکتاپ بدون دردسر کار می‌کند.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 sm:max-w-md">
+        <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+          <div class="text-lg font-bold text-white">+12K</div>
+          <div class="text-xs text-slate-300">فروشنده فعال</div>
+        </div>
+        <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+          <div class="text-lg font-bold text-white">زیر ۱ دقیقه</div>
+          <div class="text-xs text-slate-300">زمان میانگین ثبت‌نام</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-6 sm:p-8">
+      <div class="flex justify-between items-center mb-6">
+        <div class="space-y-1">
+          <h2 class="text-2xl font-bold">ورود / ثبت‌نام</h2>
+          <p class="text-sm text-slate-300">فرم سبک و کوتاه برای شروع سریع.</p>
+        </div>
+        <div class="text-xs text-slate-400">RTL + Responsive</div>
+      </div>
+
+      <div class="flex rounded-xl bg-white/5 p-1 ring-1 ring-white/10 mb-6" id="modeSwitcher">
+        <button data-mode="login" class="flex-1 py-2 rounded-lg text-sm font-semibold transition-all bg-white text-slate-900 shadow">ورود</button>
+        <button data-mode="register" class="flex-1 py-2 rounded-lg text-sm font-semibold transition-all text-white">ثبت‌نام</button>
+      </div>
+
+      <form id="loginForm" class="space-y-4" autocomplete="on">
+        <div class="space-y-2">
+          <label class="text-sm text-slate-200">شماره موبایل یا ایمیل</label>
+          <input type="text" required class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً 0912... یا email@example.com" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm text-slate-200">رمز عبور</label>
+          <input type="password" required class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="******" />
+        </div>
+        <div class="flex items-center justify-between text-sm text-slate-300">
+          <label class="inline-flex items-center gap-2 select-none">
+            <input type="checkbox" class="h-4 w-4 rounded border-slate-400/50 bg-white/10 text-teal-300 focus:ring-teal-300/60" />
+            مرا به خاطر بسپار
+          </label>
+          <a href="#" class="text-teal-200 hover:text-teal-100">فراموشی رمز؟</a>
+        </div>
+        <button type="submit" class="w-full rounded-xl bg-teal-300 text-slate-900 font-semibold py-3 text-sm hover:-translate-y-0.5 transition-all shadow-lg shadow-teal-300/30">ورود به حساب</button>
+      </form>
+
+      <form id="registerForm" class="space-y-4 hidden" autocomplete="on">
+        <div class="space-y-2">
+          <label class="text-sm text-slate-200">نام و نام خانوادگی</label>
+          <input type="text" required class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً علی رضایی" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm text-slate-200">شماره موبایل</label>
+          <input type="tel" required class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="0912..." />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm text-slate-200">رمز عبور</label>
+          <input type="password" required class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="حداقل ۸ کاراکتر" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm text-slate-200">تکرار رمز</label>
+          <input type="password" required class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="تأیید رمز" />
+        </div>
+        <button type="submit" class="w-full rounded-xl bg-amber-300 text-slate-900 font-semibold py-3 text-sm hover:-translate-y-0.5 transition-all shadow-lg shadow-amber-300/30">ساخت حساب</button>
+      </form>
+
+      <p class="mt-6 text-xs text-slate-400 leading-relaxed">
+        با ورود یا ثبت‌نام، شرایط استفاده و حریم خصوصی دستفروش را می‌پذیرید. بعداً می‌توانید اطلاعات غرفه و لوکیشن را کامل کنید.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const switcher = document.getElementById('modeSwitcher');
+    const loginBtn = switcher.querySelector('[data-mode="login"]');
+    const registerBtn = switcher.querySelector('[data-mode="register"]');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+
+    function setMode(mode) {
+      const isLogin = mode === 'login';
+      loginForm.classList.toggle('hidden', !isLogin);
+      registerForm.classList.toggle('hidden', isLogin);
+
+      loginBtn.classList.toggle('bg-white', isLogin);
+      loginBtn.classList.toggle('text-slate-900', isLogin);
+      loginBtn.classList.toggle('shadow', isLogin);
+      registerBtn.classList.toggle('bg-white', !isLogin);
+      registerBtn.classList.toggle('text-slate-900', !isLogin);
+      registerBtn.classList.toggle('shadow', !isLogin);
+
+      if (isLogin) {
+        loginBtn.classList.remove('text-white');
+        registerBtn.classList.add('text-white');
+        loginForm.querySelector('input')?.focus();
+      } else {
+        registerBtn.classList.remove('text-white');
+        loginBtn.classList.add('text-white');
+        registerForm.querySelector('input')?.focus();
+      }
+    }
+
+    loginBtn.addEventListener('click', () => setMode('login'));
+    registerBtn.addEventListener('click', () => setMode('register'));
+
+    document.querySelectorAll('form').forEach((form) => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('برای اتصال به بک‌اند، این فرم را به API خود وصل کنید.');
+      });
+    });
+  </script>
+</body>
+</html>

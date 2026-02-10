@@ -1,0 +1,212 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پروفایل بساط‌کننده + لوکیشن | دستفروش</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Vazirmatn"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#2dd4bf',
+              accent: '#fbbf24',
+              dark: '#0f172a',
+            },
+          },
+          boxShadow: {
+            glow: '0 10px 50px -20px rgba(45, 212, 191, 0.6)',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(251, 191, 36, 0.12), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(125, 211, 252, 0.1), transparent 35%);
+      filter: blur(40px);
+      z-index: -1;
+    }
+    #mapBox::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.08), rgba(251, 191, 36, 0.08));
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+  <header class="sticky top-0 z-10 backdrop-blur bg-slate-950/80 border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-teal-300 to-amber-300 flex items-center justify-center text-slate-900 font-extrabold shadow-glow">د</div>
+        <div>
+          <div class="font-extrabold text-lg">پروفایل بساط‌کننده</div>
+          <div class="text-xs text-slate-400">نمایش اطلاعات + موقعیت‌یابی سریع</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-sm">
+        <a href="index.html" class="px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition">صفحه اصلی</a>
+        <a href="vendor.html" class="px-4 py-2 rounded-xl bg-teal-300 text-slate-900 font-semibold shadow-glow hover:-translate-y-0.5 transition">ثبت/ویرایش پروفایل</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-10 space-y-10">
+    <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] items-start">
+      <article class="rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-300 to-teal-300 text-slate-900 font-extrabold flex items-center justify-center">ب</div>
+          <div>
+            <div class="font-semibold text-lg">لیموناد خیابانی</div>
+            <div class="text-xs text-slate-300">دسته: خوراکی · حضور: عصرها</div>
+          </div>
+          <a href="tel:09120000000" class="ml-auto text-xs px-3 py-1 rounded-full bg-white/10 text-teal-200 border border-white/10 hover:bg-white/20 transition">تماس: 0912xxxxxxx</a>
+        </div>
+        <p class="text-sm text-slate-300">لیموناد تازه و دمنوش نعنا. پرداخت در محل؛ برای هماهنگی تماس بگیرید. این صفحه فقط معرفی است.</p>
+        <div class="grid grid-cols-3 gap-2 text-xs">
+          <div class="aspect-square rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-slate-400">عکس</div>
+          <div class="aspect-square rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-slate-400">عکس</div>
+          <div class="aspect-square rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-slate-400">عکس</div>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <span class="px-3 py-1 rounded-full bg-white/5 text-teal-200">لوکیشن فعلی: نامشخص</span>
+          <span class="px-3 py-1 rounded-full bg-white/5 text-amber-200">به‌روزرسانی کنید</span>
+        </div>
+      </article>
+
+      <section class="rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-bold">انتخاب لوکیشن بساط</h2>
+            <p class="text-xs text-slate-300">موقعیت تقریبی را با GPS یا به‌صورت دستی ثبت کن.</p>
+          </div>
+          <span class="text-xs text-teal-200 bg-white/5 px-3 py-1 rounded-full ring-1 ring-white/10">بدون فروش آنلاین</span>
+        </div>
+
+        <div id="mapBox" class="relative rounded-2xl bg-slate-900/70 border border-white/10 h-60 overflow-hidden">
+          <div class="absolute inset-0 grid grid-cols-6 grid-rows-6 opacity-20">
+            <div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div>
+            <div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div>
+            <div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div>
+            <div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div>
+            <div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div>
+            <div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div><div class="border border-white/5"></div>
+          </div>
+          <div id="marker" class="absolute h-10 w-10 rounded-full bg-teal-300 shadow-glow flex items-center justify-center text-slate-900 font-bold" style="top: calc(50% - 20px); right: calc(50% - 20px);">
+            📍
+          </div>
+          <div class="absolute bottom-3 left-3 text-xs bg-slate-900/80 px-3 py-2 rounded-xl border border-white/10 text-white">
+            <div>lat: <span id="latValue">--</span></div>
+            <div>lng: <span id="lngValue">--</span></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button id="geoBtn" class="px-4 py-2 rounded-xl bg-teal-300 text-slate-900 font-semibold text-sm shadow-glow hover:-translate-y-0.5 transition" type="button">موقعیت‌یابی خودکار</button>
+          <button id="resetBtn" class="px-4 py-2 rounded-xl bg-white/10 text-white text-sm hover:bg-white/20 transition" type="button">ریست پین</button>
+        </div>
+        <p id="status" class="text-xs text-slate-300">برای تعیین نقطه روی نقشه، دکمه موقعیت‌یابی را بزن یا مختصات را دستی وارد کن.</p>
+
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="space-y-2">
+            <label class="text-sm">عرض جغرافیایی (lat)</label>
+            <input id="latInput" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً 35.776" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm">طول جغرافیایی (lng)</label>
+            <input id="lngInput" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً 51.418" />
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm">توضیح موقعیت / نشانی تقریبی</label>
+          <input id="locationNote" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً کنار خروجی غربی مترو تجریش" />
+        </div>
+        <button class="w-full rounded-xl bg-amber-300 text-slate-900 font-semibold py-3 text-sm hover:-translate-y-0.5 transition-all shadow-glow" type="button" onclick="alert('این دکمه نمونه است؛ داده‌ها را به بک‌اند خود بفرستید.');">ذخیره لوکیشن</button>
+      </section>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-300">
+      <div class="flex items-center gap-2 font-semibold text-white">دستفروش</div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="hover:text-teal-200">صفحه اصلی</a>
+        <a href="vendor.html" class="hover:text-teal-200">فرم بساط</a>
+        <a href="auth.html" class="hover:text-teal-200">ورود</a>
+      </div>
+      <div class="text-xs text-slate-400">فقط نمایش اطلاعات؛ هیچ پرداختی در پلتفرم نیست.</div>
+    </div>
+  </footer>
+
+  <script>
+    const latInput = document.getElementById('latInput');
+    const lngInput = document.getElementById('lngInput');
+    const latValue = document.getElementById('latValue');
+    const lngValue = document.getElementById('lngValue');
+    const statusEl = document.getElementById('status');
+    const marker = document.getElementById('marker');
+
+    function updateMarker(lat, lng) {
+      latValue.textContent = lat.toFixed(5);
+      lngValue.textContent = lng.toFixed(5);
+      latInput.value = lat;
+      lngInput.value = lng;
+      statusEl.textContent = 'لوکیشن به‌روزرسانی شد. در صورت نیاز متن نشانی را هم بنویس.';
+      // برای یک نقشه ساده، پین را وسط نگه می‌داریم. اگر نقشه واقعی اضافه شد، مختصات را به پین نگاشت کنید.
+      marker.style.top = 'calc(50% - 20px)';
+      marker.style.right = 'calc(50% - 20px)';
+    }
+
+    document.getElementById('geoBtn').addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        statusEl.textContent = 'مرورگر شما از موقعیت‌یابی پشتیبانی نمی‌کند.';
+        return;
+      }
+      statusEl.textContent = 'در حال درخواست موقعیت...';
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          updateMarker(latitude, longitude);
+        },
+        (err) => {
+          statusEl.textContent = 'دریافت موقعیت ناموفق بود: ' + err.message;
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      latValue.textContent = '--';
+      lngValue.textContent = '--';
+      latInput.value = '';
+      lngInput.value = '';
+      statusEl.textContent = 'پین ریست شد. دوباره موقعیت را تعیین کن.';
+    });
+
+    [latInput, lngInput].forEach((input) => {
+      input.addEventListener('input', () => {
+        const lat = parseFloat(latInput.value);
+        const lng = parseFloat(lngInput.value);
+        if (!isNaN(lat) && !isNaN(lng)) {
+          updateMarker(lat, lng);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

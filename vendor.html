@@ -1,0 +1,370 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پنل بساط‌کننده | پروفایل، لوکیشن و پاسخ به نظرات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Vazirmatn"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#2dd4bf',
+              accent: '#fbbf24',
+              dark: '#0f172a',
+            },
+          },
+          boxShadow: {
+            glow: '0 10px 50px -20px rgba(45, 212, 191, 0.6)',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(251, 191, 36, 0.12), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(125, 211, 252, 0.1), transparent 35%);
+      filter: blur(40px);
+      z-index: -1;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+  <header class="sticky top-0 z-10 backdrop-blur bg-slate-950/80 border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-teal-300 to-amber-300 flex items-center justify-center text-slate-900 font-extrabold shadow-glow">د</div>
+        <div>
+          <div class="font-extrabold text-lg">پنل بساط‌کننده</div>
+          <div class="text-xs text-slate-400">پروفایل + لوکیشن + پاسخ به نظرات</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-sm">
+        <a href="index.html" class="px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition">صفحه اصلی</a>
+        <a href="auth.html" class="px-4 py-2 rounded-xl bg-teal-300 text-slate-900 font-semibold shadow-glow hover:-translate-y-0.5 transition">ورود / ثبت‌نام</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-10 space-y-8">
+    <section class="space-y-4">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs font-semibold text-teal-200 ring-1 ring-teal-400/30">
+        <span class="inline-block h-2 w-2 rounded-full bg-teal-300"></span>
+        بدون فروش آنلاین؛ فقط معرفی، تماس و پاسخ به نظرات
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight">پروفایل بساطت را ثبت کن و به نظرات پاسخ بده</h1>
+      <p class="text-slate-300 leading-relaxed">نام بساط، دسته‌بندی، توضیح، عکس/ویدیو، لوکیشن و تماس را ثبت کن. بخش نظرات را ببین و به بازخورد کاربران پاسخ بده تا اعتماد بیشتر بگیری.</p>
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] items-start">
+      <form id="vendorForm" class="space-y-4 rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl" onsubmit="event.preventDefault(); alert('این فرم نمونه است؛ به بک‌اند خود وصل کنید.');">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-bold">اطلاعات بساط</h2>
+          <span class="text-xs text-teal-200 bg-white/5 px-3 py-1 rounded-full ring-1 ring-white/10">نمونه</span>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm">نام بساط</label>
+          <input name="title" type="text" required class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً لیموناد خیابانی" />
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="space-y-2">
+            <label class="text-sm">دسته‌بندی</label>
+            <select name="category" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-teal-300/70">
+              <option class="bg-slate-800">خوراکی و نوشیدنی</option>
+              <option class="bg-slate-800">مد و اکسسوری</option>
+              <option class="bg-slate-800">هنر و صنایع‌دستی</option>
+              <option class="bg-slate-800">محصولات طبیعی</option>
+              <option class="bg-slate-800">کودک و بازی</option>
+              <option class="bg-slate-800">خانه و دکور</option>
+            </select>
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm">موقعیت تقریبی (متن)</label>
+            <input name="locationText" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً مترو تجریش" />
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm">زمان حضور</label>
+          <input name="time" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً هر روز ۱۷ تا ۲۲" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm">توضیح کوتاه</label>
+          <textarea name="description" rows="3" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="چند خط درباره بساط و محصولاتت"></textarea>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm">گالری عکس (۳ تا ۵ تصویر) با پیش‌نمایش</label>
+          <div id="galleryInputs" class="grid grid-cols-3 gap-2 text-xs">
+            <label class="gallery-slot aspect-square rounded-lg bg-white/5 border border-dashed border-white/30 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-teal-300/60">
+              <span>📷</span><span>آپلود</span>
+              <input type="file" class="gallery-input hidden" accept="image/*" />
+            </label>
+            <label class="gallery-slot aspect-square rounded-lg bg-white/5 border border-dashed border-white/30 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-teal-300/60">
+              <span>📷</span><span>آپلود</span>
+              <input type="file" class="gallery-input hidden" accept="image/*" />
+            </label>
+            <label class="gallery-slot aspect-square rounded-lg bg-white/5 border border-dashed border-white/30 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-teal-300/60">
+              <span>📷</span><span>آپلود</span>
+              <input type="file" class="gallery-input hidden" accept="image/*" />
+            </label>
+          </div>
+          <p class="text-[11px] text-slate-400">پس از انتخاب، پیش‌نمایش بالای فرم نشان می‌دهد؛ برای ذخیره واقعی به بک‌اند وصل شوید.</p>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm">ویدیو معرفی (اختیاری)</label>
+          <div class="grid sm:grid-cols-2 gap-2">
+            <input name="videoFile" type="file" accept="video/*" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" />
+            <input name="videoUrl" type="url" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="یا لینک ویدیو (مثلاً آپارات/یوتیوب)" />
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="space-y-2">
+            <label class="text-sm">شماره تماس</label>
+            <input name="phone" type="tel" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="0912xxxxxxx" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm">لینک پیام‌رسان (اختیاری)</label>
+            <input name="messenger" type="url" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً لینک واتساپ" />
+          </div>
+        </div>
+        <button type="submit" class="w-full rounded-xl bg-teal-300 text-slate-900 font-semibold py-3 text-sm hover:-translate-y-0.5 transition-all shadow-glow">ثبت پروفایل</button>
+        <p class="text-xs text-slate-400">این صفحه فقط برای نمایش اطلاعات و تماس است؛ پرداخت در پلتفرم انجام نمی‌شود.</p>
+      </form>
+
+      <section class="rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-bold">انتخاب لوکیشن بساط</h2>
+            <p class="text-xs text-slate-300">GPS یا ورود دستی؛ کاربران فقط لوکیشن را می‌بینند.</p>
+          </div>
+          <span class="text-xs text-teal-200 bg-white/5 px-3 py-1 rounded-full ring-1 ring-white/10">بدون فروش آنلاین</span>
+        </div>
+        <div id="mapBox" class="relative rounded-2xl bg-slate-900/70 border border-white/10 h-60 overflow-hidden">
+          <div class="absolute bottom-3 left-3 text-xs bg-slate-900/80 px-3 py-2 rounded-xl border border-white/10 text-white z-10">
+            <div>lat: <span id="latValue">--</span></div>
+            <div>lng: <span id="lngValue">--</span></div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <button id="geoBtn" class="px-4 py-2 rounded-xl bg-teal-300 text-slate-900 font-semibold text-sm shadow-glow hover:-translate-y-0.5 transition" type="button">موقعیت‌یابی خودکار</button>
+          <button id="resetBtn" class="px-4 py-2 rounded-xl bg-white/10 text-white text-sm hover:bg-white/20 transition" type="button">ریست پین</button>
+        </div>
+        <p id="status" class="text-xs text-slate-300">اگر GPS جواب نداد، مختصات را دستی وارد کن.</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="space-y-2">
+            <label class="text-sm">عرض جغرافیایی (lat)</label>
+            <input id="latInput" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً 35.776" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm">طول جغرافیایی (lng)</label>
+            <input id="lngInput" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً 51.418" />
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm">توضیح موقعیت / نشانی تقریبی</label>
+          <input id="locationNote" type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً کنار خروجی غربی مترو تجریش" />
+        </div>
+        <button class="w-full rounded-xl bg-amber-300 text-slate-900 font-semibold py-3 text-sm hover:-translate-y-0.5 transition-all shadow-glow" type="button" onclick="alert('این دکمه نمونه است؛ داده‌ها را به بک‌اند خود بفرستید.');">ذخیره لوکیشن</button>
+      </section>
+    </section>
+
+    <section class="rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl space-y-5">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="space-y-1">
+          <h2 class="text-lg font-bold">نظرات کاربران</h2>
+          <p class="text-xs text-slate-300">فروشنده فقط می‌تواند پاسخ دهد.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="text-2xl font-extrabold text-white">4.8</div>
+          <div class="flex flex-col text-xs text-slate-300 leading-tight">
+            <span>میانگین از ۵</span>
+            <span class="text-teal-200">+124 رأی</span>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <article class="rounded-2xl bg-slate-900/60 border border-white/10 p-3 space-y-2">
+          <div class="flex items-center gap-2 text-sm font-semibold text-white">۵★<span class="text-slate-300 text-xs">— سارا</span></div>
+          <p class="text-sm text-slate-200 leading-relaxed">لیموناد خنک و عالی، برخورد خیلی خوب. حتماً قبل رفتن تماس بگیرید تا حضورش را چک کنید.</p>
+          <div class="flex items-center gap-3 text-[11px] text-slate-400">
+            <span>دیروز · تحویل در محل</span>
+          </div>
+          <div class="rounded-xl bg-white/5 border border-white/10 p-2 text-[12px] text-slate-200 space-y-2">
+            <div class="font-semibold text-white">پاسخ فروشنده</div>
+            <textarea rows="2" class="w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="پاسخ شما..."></textarea>
+            <button class="w-full rounded-lg bg-teal-300 text-slate-900 font-semibold py-2 text-sm hover:-translate-y-0.5 transition-all shadow-glow" type="button" onclick="alert('ارسال پاسخ نمونه است؛ به بک‌اند وصل کنید.');">ارسال پاسخ</button>
+          </div>
+        </article>
+        <article class="rounded-2xl bg-slate-900/60 border border-white/10 p-3 space-y-2">
+          <div class="flex items-center gap-2 text-sm font-semibold text-white">۴★<span class="text-slate-300 text-xs">— نرگس</span></div>
+          <p class="text-sm text-slate-200 leading-relaxed">کمی شلوغ بود و دیر رسیدم، ولی کیفیت خوب بود. بهتره ساعت حضور دقیق‌تر در پروفایل نوشته شود.</p>
+          <div class="flex items-center gap-3 text-[11px] text-slate-400">
+            <span>۱ هفته پیش · تحویل حضوری</span>
+          </div>
+          <div class="rounded-xl bg-white/5 border border-white/10 p-2 text-[12px] text-slate-200 space-y-2">
+            <div class="font-semibold text-white">پاسخ فروشنده</div>
+            <textarea rows="2" class="w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="پاسخ شما..."></textarea>
+            <button class="w-full rounded-lg bg-teal-300 text-slate-900 font-semibold py-2 text-sm hover:-translate-y-0.5 transition-all shadow-glow" type="button" onclick="alert('ارسال پاسخ نمونه است؛ به بک‌اند وصل کنید.');">ارسال پاسخ</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-bold">راهنما و نکات مهم</h2>
+        <span class="text-xs text-teal-200 bg-white/5 px-3 py-1 rounded-full ring-1 ring-white/10">ویژه فروشنده</span>
+      </div>
+      <ul class="space-y-2 text-sm text-slate-200 leading-relaxed list-disc list-inside">
+        <li>لوکیشن را دقیق و به‌روز نگه دار؛ کاربران قبل از مراجعه تماس می‌گیرند.</li>
+        <li>۳ تا ۵ عکس واضح از بساط اضافه کن و یک ویدیو کوتاه برای اعتماد بیشتر.</li>
+        <li>به نظرات سریع و محترمانه پاسخ بده؛ لایک/دیس‌لایک را کاربران می‌بینند.</li>
+        <li>پرداختی در پلتفرم نیست؛ شماره تماس و پیام‌رسان را حتماً درج کن.</li>
+        <li>اگر جای حضور تغییر می‌کند، توضیح زمان و موقعیت را به‌روز کن.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-300">
+      <div class="flex items-center gap-2 font-semibold text-white">دستفروش</div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="hover:text-teal-200">صفحه اصلی</a>
+        <a href="auth.html" class="hover:text-teal-200">ورود / ثبت‌نام</a>
+      </div>
+      <div class="text-xs text-slate-400">پروفایل رایگان؛ صرفاً نمایش اطلاعات بساط.</div>
+    </div>
+  </footer>
+
+  <script>
+    const latInput = document.getElementById('latInput');
+    const lngInput = document.getElementById('lngInput');
+    const latValue = document.getElementById('latValue');
+    const lngValue = document.getElementById('lngValue');
+    const statusEl = document.getElementById('status');
+    const geoBtn = document.getElementById('geoBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const mapBox = document.getElementById('mapBox');
+
+    let map;
+    let leafletMarker;
+    try {
+      map = L.map(mapBox, { zoomControl: false }).setView([35.715, 51.404], 12);
+      const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+      });
+      tiles.on('tileerror', () => {
+        statusEl.textContent = 'بارگذاری کاشی نقشه ناموفق بود؛ اینترنت یا بلاک بودن دامنه tile را بررسی کن.';
+      });
+      tiles.addTo(map);
+      setTimeout(() => map.invalidateSize(), 150);
+    } catch (e) {
+      statusEl.textContent = 'نقشه بارگذاری نشد؛ اتصال اینترنت یا CDN را بررسی کنید.';
+    }
+
+    function placeMarker(lat, lng) {
+      if (!map) return;
+      if (!leafletMarker) {
+        leafletMarker = L.marker([lat, lng]).addTo(map);
+      } else {
+        leafletMarker.setLatLng([lat, lng]);
+      }
+      map.setView([lat, lng], 15);
+    }
+
+    function updateMarker(lat, lng) {
+      latValue.textContent = lat.toFixed(5);
+      lngValue.textContent = lng.toFixed(5);
+      latInput.value = lat;
+      lngInput.value = lng;
+      statusEl.textContent = 'لوکیشن به‌روزرسانی شد. در صورت نیاز متن نشانی را هم بنویس.';
+      placeMarker(lat, lng);
+    }
+
+    geoBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        statusEl.textContent = 'مرورگر شما از موقعیت‌یابی پشتیبانی نمی‌کند.';
+        return;
+      }
+      statusEl.textContent = 'در حال درخواست موقعیت...';
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          updateMarker(latitude, longitude);
+        },
+        (err) => {
+          if (err.code === err.TIMEOUT) {
+            statusEl.textContent = 'دریافت موقعیت ناموفق بود (Timeout). دوباره تلاش کن یا مختصات را دستی وارد کن.';
+          } else if (err.code === err.PERMISSION_DENIED) {
+            statusEl.textContent = 'دسترسی لوکیشن رد شد. اجازه بده یا مختصات را دستی وارد کن.';
+          } else {
+            statusEl.textContent = 'دریافت موقعیت ناموفق بود: ' + err.message;
+          }
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+      );
+    });
+
+    resetBtn.addEventListener('click', () => {
+      latValue.textContent = '--';
+      lngValue.textContent = '--';
+      latInput.value = '';
+      lngInput.value = '';
+      statusEl.textContent = 'پین ریست شد. دوباره موقعیت را تعیین کن.';
+      if (leafletMarker && map) {
+        leafletMarker.remove();
+        leafletMarker = null;
+        map.setView([35.715, 51.404], 12);
+      }
+    });
+
+    [latInput, lngInput].forEach((input) => {
+      input.addEventListener('input', () => {
+        const lat = parseFloat(latInput.value);
+        const lng = parseFloat(lngInput.value);
+        if (!isNaN(lat) && !isNaN(lng)) {
+          updateMarker(lat, lng);
+        }
+      });
+    });
+
+    // پیش‌نمایش ساده گالری و ویدیو
+    const previewGallery = document.getElementById('galleryInputs').querySelectorAll('.gallery-slot');
+    const galleryInputs = document.querySelectorAll('.gallery-input');
+    galleryInputs.forEach((input, idx) => {
+      input.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const url = ev.target?.result;
+          const slot = previewGallery[idx];
+          if (slot) {
+            slot.innerHTML = '';
+            slot.style.backgroundImage = 'url(' + url + ')';
+            slot.style.backgroundSize = 'cover';
+            slot.style.backgroundPosition = 'center';
+            slot.style.borderColor = 'rgba(255,255,255,0.1)';
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نمایش فروشنده‌ها روی نقشه | دستفروش</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Vazirmatn"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#2dd4bf',
+              accent: '#fbbf24',
+              dark: '#0f172a',
+            },
+          },
+          boxShadow: {
+            glow: '0 10px 50px -20px rgba(45, 212, 191, 0.6)',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(251, 191, 36, 0.12), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(125, 211, 252, 0.1), transparent 35%);
+      filter: blur(40px);
+      z-index: -1;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+  <!-- هدر ثابت -->
+  <header class="fixed top-0 left-0 right-0 z-30 bg-slate-950/90 border-b border-white/10 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-teal-300 to-amber-300 flex items-center justify-center text-slate-900 font-extrabold shadow-glow">د</div>
+        <div class="leading-tight">
+          <div class="font-extrabold text-lg">فروشنده‌ها روی نقشه</div>
+          <div class="text-xs text-slate-400">لیست و پین‌ها</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 text-xs">
+        <a href="index.html" class="px-3 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition">خانه</a>
+        <a href="auth.html" class="px-3 py-2 rounded-xl bg-teal-300 text-slate-900 font-semibold shadow-glow hover:-translate-y-0.5 transition">ثبت‌نام فروشنده</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- فوتر ثابت -->
+  <footer class="fixed bottom-0 left-0 right-0 z-30 bg-slate-950/90 border-t border-white/10 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between text-xs text-slate-300">
+      <span class="text-white font-semibold">دستفروش</span>
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="hover:text-teal-200">خانه</a>
+        <a href="auth.html" class="hover:text-teal-200">ثبت‌نام فروشنده</a>
+      </div>
+      <span class="text-[11px] text-slate-400">صرفاً نمایش اطلاعات؛ پرداخت در پلتفرم نیست.</span>
+    </div>
+  </footer>
+
+  <main class="w-full max-w-none px-0 py-0 pt-[76px] pb-[60px]">
+    <section class="grid gap-0 lg:grid-cols-[0.32fr_1fr] items-start">
+      <!-- Sidebar -->
+      <aside class="relative space-y-3 max-h-[calc(100vh-136px)] h-[calc(100vh-136px)] overflow-auto bg-slate-950/85 border-l border-white/10 flex flex-col justify-between">
+        <div class="bg-slate-950/90 border-b border-white/10 sticky top-0 z-10">
+          <div class="p-3 space-y-2 text-sm">
+            <button id="categoryToggle" class="w-full flex items-center justify-between rounded-xl bg-gradient-to-r from-teal-300/20 via-white/5 to-amber-300/20 border border-white/10 px-3 py-2 text-xs text-white hover:bg-white/10 transition">
+              <span id="categoryLabel">انتخاب دسته‌بندی</span>
+              <span class="text-slate-200">انتخاب / فیلتر</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-3 px-2 pb-4" id="vendorList"></div>
+
+        <div class="bg-slate-950/90 border-t border-white/10 p-3 text-xs text-slate-400">
+          <div class="flex items-center gap-2 text-white font-semibold">دستفروش</div>
+          <div class="flex items-center gap-3">
+            <a href="index.html" class="hover:text-teal-200">خانه</a>
+            <a href="auth.html" class="hover:text-teal-200">ثبت‌نام فروشنده</a>
+          </div>
+          <div>صرفاً نمایش اطلاعات؛ پرداخت در پلتفرم نیست.</div>
+        </div>
+
+        <!-- Bottom sheet within sidebar -->
+        <div id="categorySheet" class="hidden absolute left-2 right-2 bottom-4 z-20">
+          <div class="rounded-3xl bg-slate-900/95 border border-white/10 shadow-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="text-sm font-semibold text-white">انتخاب دسته‌بندی</div>
+              <button id="sheetClose" class="text-xs text-slate-300 hover:text-white">بستن ✕</button>
+            </div>
+            <div class="space-y-2">
+              <div class="text-[11px] text-slate-300">دسته‌های اصلی</div>
+              <div id="mainCats" class="flex flex-wrap gap-2"></div>
+            </div>
+            <div class="space-y-2 border-t border-white/10 pt-3">
+              <div class="text-[11px] text-slate-300">زیر دسته‌ها</div>
+              <div id="subCats" class="flex flex-wrap gap-2"></div>
+            </div>
+            <div class="flex items-center justify-between border-t border-white/10 pt-3">
+              <div class="text-xs text-slate-200">فقط فعال‌ها</div>
+              <button id="activeToggle" class="relative inline-flex h-6 w-11 items-center rounded-full bg-white/10 border border-white/20 transition">
+                <span id="activeThumb" class="inline-block h-4 w-4 rounded-full bg-white translate-x-1 transition"></span>
+              </button>
+            </div>
+            <div class="text-[11px] text-slate-400">دسته اصلی را بزن تا زیر دسته‌ها باز شود؛ می‌توانی «همه زیر دسته‌ها» یا یک زیر دسته خاص را انتخاب کنی.</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Map -->
+      <section class="bg-slate-900 h-[calc(100vh-136px)] p-3 border-l border-white/10">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-bold">نقشه فروشنده‌ها</h2>
+          <span class="text-xs text-teal-200 bg-white/5 px-3 py-1 rounded-full ring-1 ring-white/10">لوکیشن تقریبی</span>
+        </div>
+        <div id="mapBox" class="relative bg-slate-900/70 border border-white/10 h-[90%] overflow-hidden mt-2"></div>
+        <p class="text-xs text-slate-400 mt-2">لوکیشن‌ها توسط فروشنده ثبت شده‌اند. قبل از مراجعه تماس بگیرید.</p>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const vendors = [
+      { id: 1, name: 'لیموناد خیابانی', cat: 'خوراکی', sub: 'نوشیدنی خیابانی', loc: 'مترو تجریش', phone: '09120000000', lat: 35.807, lng: 51.425, tags: ['نوشیدنی', 'حضور عصرها'], active: true, updatedAt: 'امروز' },
+      { id: 2, name: 'کیف و اکسسوری چرم', cat: 'مد', sub: 'کیف و کفش', loc: 'میدان انقلاب', phone: '09350000000', lat: 35.703, lng: 51.392, tags: ['دست‌دوز', 'چرم طبیعی'], active: true, updatedAt: 'دیروز' },
+      { id: 3, name: 'گیاهان آپارتمانی', cat: 'محصولات طبیعی', sub: 'گیاه', loc: 'تهران‌پارس', phone: '09130000000', lat: 35.736, lng: 51.565, tags: ['گیاه', 'تحویل سریع'], active: false, updatedAt: '۳ روز پیش' },
+      { id: 4, name: 'زیورآلات رزینی', cat: 'هنر', sub: 'اکسسوری هنری', loc: 'میدان ونک', phone: '09190000000', lat: 35.758, lng: 51.411, tags: ['رزین', 'دست‌ساز'], active: true, updatedAt: '۲ روز پیش' },
+    ];
+
+    const categories = [
+      { key: 'خوراکی', name: 'خوراکی و نوشیدنی', subs: ['همه زیر دسته‌ها', 'غذای خانگی', 'نوشیدنی خیابانی', 'دسر و شیرینی'] },
+      { key: 'مد', name: 'مد و اکسسوری', subs: ['همه زیر دسته‌ها', 'پوشاک', 'کیف و کفش', 'زیورآلات'] },
+      { key: 'محصولات طبیعی', name: 'محصولات طبیعی', subs: ['همه زیر دسته‌ها', 'گیاه', 'دمنوش و دارویی', 'عسل و ارگانیک'] },
+      { key: 'هنر', name: 'هنر و صنایع‌دستی', subs: ['همه زیر دسته‌ها', 'سفال و سرامیک', 'اکسسوری هنری', 'چاپ و نقاشی'] },
+      { key: 'پوشاک', name: 'پوشاک و چاپ', subs: ['همه زیر دسته‌ها', 'چاپ تی‌شرت', 'هودی و لباس خیابانی'] },
+    ];
+
+    let selectedMain = 'all';
+    let selectedSub = 'all';
+    let activeOnly = false;
+
+    const listContainer = document.getElementById('vendorList');
+    const categoryToggle = document.getElementById('categoryToggle');
+    const categorySheet = document.getElementById('categorySheet');
+    const sheetClose = document.getElementById('sheetClose');
+    const categoryLabel = document.getElementById('categoryLabel');
+    const mainCats = document.getElementById('mainCats');
+    const subCats = document.getElementById('subCats');
+    const activeToggle = document.getElementById('activeToggle');
+    const activeThumb = document.getElementById('activeThumb');
+
+    function openSheet() { categorySheet.classList.remove('hidden'); }
+    function closeSheet() { categorySheet.classList.add('hidden'); }
+
+    function updateCategoryLabel() {
+      if (selectedMain === 'all') {
+        categoryLabel.textContent = 'همه دسته‌ها';
+      } else if (selectedSub === 'all') {
+        categoryLabel.textContent = `${selectedMain} · همه زیر دسته‌ها`;
+      } else {
+        categoryLabel.textContent = `${selectedMain} · ${selectedSub}`;
+      }
+    }
+
+    function renderCategoryUI() {
+      mainCats.innerHTML = ['all', ...categories.map(c => c.key)].map(key => {
+        const name = key === 'all' ? 'همه دسته‌ها' : categories.find(c => c.key === key)?.name || key;
+        const active = selectedMain === key ? 'bg-teal-300 text-slate-900 border-teal-200' : 'bg-white/5 text-white border-white/10';
+        return `<button data-main="${key}" class="px-3 py-2 rounded-xl border ${active} text-xs hover:bg-teal-200 hover:text-slate-900 transition">${name}</button>`;
+      }).join('');
+
+      const current = categories.find(c => c.key === selectedMain);
+      if (!current) {
+        subCats.innerHTML = '<div class="text-[11px] text-slate-400">برای دیدن زیر دسته‌ها، یک دسته اصلی را انتخاب کنید.</div>';
+        return;
+      }
+      subCats.innerHTML = current.subs.map(sub => {
+        const key = sub === 'همه زیر دسته‌ها' ? 'all' : sub;
+        const active = selectedSub === key ? 'bg-teal-300 text-slate-900 border-teal-200' : 'bg-white/5 text-white border-white/10';
+        return `<button data-sub="${key}" class="px-3 py-2 rounded-xl border ${active} text-xs hover:bg-teal-200 hover:text-slate-900 transition">${sub}</button>`;
+      }).join('');
+    }
+
+    categoryToggle.addEventListener('click', openSheet);
+    sheetClose.addEventListener('click', closeSheet);
+
+    mainCats.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-main]');
+      if (!btn) return;
+      selectedMain = btn.getAttribute('data-main');
+      selectedSub = 'all';
+      renderCategoryUI();
+      updateCategoryLabel();
+      renderCards();
+    });
+
+    subCats.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-sub]');
+      if (!btn) return;
+      selectedSub = btn.getAttribute('data-sub');
+      updateCategoryLabel();
+      renderCategoryUI();
+      renderCards();
+    });
+
+    activeToggle.addEventListener('click', () => {
+      activeOnly = !activeOnly;
+      activeThumb.style.transform = activeOnly ? 'translateX(22px)' : 'translateX(4px)';
+      activeToggle.classList.toggle('bg-teal-300/50', activeOnly);
+      renderCards();
+    });
+
+    function filteredVendors() {
+      return vendors.filter(v => {
+        const catOk = selectedMain === 'all' || v.cat === selectedMain;
+        const subOk = selectedSub === 'all' || v.sub === selectedSub;
+        const activeOk = !activeOnly || v.active;
+        return catOk && subOk && activeOk;
+      });
+    }
+
+    function renderCards() {
+      const rows = filteredVendors();
+      if (!rows.length) {
+        listContainer.innerHTML = '<div class="text-sm text-slate-300 px-2">فعلاً فروشنده‌ای ثبت نشده است.</div>';
+        addMarkers(rows);
+        return;
+      }
+      listContainer.innerHTML = rows.map(v => `
+        <article class="rounded-2xl bg-white/5 border border-white/10 p-4 space-y-3 shadow-lg hover:border-teal-300/30 transition cursor-pointer" data-id="${v.id}">
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-teal-300 to-amber-300 text-slate-900 font-extrabold flex items-center justify-center">${v.name.slice(0,1)}</div>
+            <div>
+              <div class="font-semibold text-white">${v.name}</div>
+              <div class="text-xs text-slate-300">${v.cat} · ${v.loc}</div>
+              <div class="text-[11px] text-slate-400">آخرین به‌روزرسانی: ${v.updatedAt || '—'}</div>
+            </div>
+            ${v.active ? '<span class="ml-auto text-[11px] px-3 py-1 rounded-full bg-teal-300/20 text-teal-100 border border-teal-300/40">فعال</span>' : '<span class="ml-auto text-[11px] px-3 py-1 rounded-full bg-white/10 text-slate-200 border border-white/10">آفلاین</span>'}
+          </div>
+          <div class="flex flex-wrap gap-2 text-[11px] text-slate-200">
+            ${(v.tags || []).map(t => `<span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">${t}</span>`).join('')}
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <a href="tel:${v.phone}" class="px-3 py-2 rounded-xl bg-white/10 text-teal-200 border border-white/10 hover:bg-white/20 transition">تماس</a>
+            <span class="text-slate-400">لوکیشن: ${v.loc}</span>
+          </div>
+        </article>
+      `).join('');
+      addMarkers(rows);
+    }
+
+    let map;
+    let markers = [];
+    try {
+      map = L.map('mapBox', { zoomControl: true }).setView([35.72, 51.42], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+      }).addTo(map);
+      setTimeout(() => map.invalidateSize(), 150);
+    } catch (e) {
+      document.getElementById('mapBox').innerHTML = '<div class="absolute inset-0 flex items-center justify-center text-sm text-slate-300 bg-slate-900/80">نقشه لود نشد؛ اینترنت یا CDN را بررسی کنید.</div>';
+    }
+
+    function addMarkers(list) {
+      if (!map) return;
+      markers.forEach(m => m.remove());
+      markers = (list || []).map(v => {
+        const m = L.marker([v.lat, v.lng]).addTo(map).bindPopup(`<div class='text-sm font-semibold mb-1'>${v.name}</div><div class='text-xs text-slate-600'>${v.loc}</div><a href='tel:${v.phone}' class='text-teal-600 text-xs'>تماس</a>`);
+        m.vendorId = v.id;
+        return m;
+      });
+      if (list && list.length) {
+        const { lat, lng } = list[0];
+        map.setView([lat, lng], 13);
+      }
+    }
+
+    listContainer.addEventListener('click', (e) => {
+      const card = e.target.closest('article[data-id]');
+      if (!card || !map) return;
+      const id = Number(card.getAttribute('data-id'));
+      const v = vendors.find(x => x.id === id);
+      if (!v) return;
+      map.setView([v.lat, v.lng], 15);
+      const marker = markers.find(m => m.vendorId === id);
+      if (marker) marker.openPopup();
+    });
+
+    renderCategoryUI();
+    updateCategoryLabel();
+    renderCards();
+  </script>
+</body>
+</html>

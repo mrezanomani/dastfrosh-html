@@ -1,0 +1,260 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پروفایل فروشنده | دستفروش</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Vazirmatn"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#2dd4bf',
+              accent: '#fbbf24',
+              dark: '#0f172a',
+            },
+          },
+          boxShadow: {
+            glow: '0 10px 50px -20px rgba(45, 212, 191, 0.6)',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(251, 191, 36, 0.12), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(125, 211, 252, 0.1), transparent 35%);
+      filter: blur(40px);
+      z-index: -1;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+  <header class="sticky top-0 z-10 backdrop-blur bg-slate-950/80 border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-teal-300 to-amber-300 flex items-center justify-center text-slate-900 font-extrabold shadow-glow">د</div>
+        <div>
+          <div class="font-extrabold text-lg">پروفایل فروشنده</div>
+          <div class="text-xs text-slate-400">نمایش برای کاربران</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 text-sm">
+        <a href="index.html" class="px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition">صفحه اصلی</a>
+        <a href="tel:09120000000" class="px-4 py-2 rounded-xl bg-teal-300 text-slate-900 font-semibold shadow-glow hover:-translate-y-0.5 transition">تماس با فروشنده</a>
+      </div>
+    </div>
+  </header>
+
+<main class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <section class="space-y-6">
+      <article class="rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900/60 to-slate-900/40 border border-white/10 p-5 sm:p-7 shadow-2xl space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div class="h-16 w-16 rounded-2xl bg-gradient-to-br from-amber-300 to-teal-300 text-slate-900 font-extrabold flex items-center justify-center text-2xl shadow-glow">ب</div>
+          <div class="flex-1 space-y-1">
+            <div class="text-2xl font-bold">لیموناد خیابانی</div>
+            <div class="text-sm text-slate-300">دسته: خوراکی و نوشیدنی · حضور: عصرها · پرداخت در محل</div>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-3 py-1 rounded-full bg-white/10 text-teal-200 ring-1 ring-white/10">لوکیشن: مترو تجریش</span>
+              <span class="px-3 py-1 rounded-full bg-white/10 text-amber-200 ring-1 ring-white/10">حضور: هر روز ۱۷ تا ۲۲</span>
+            </div>
+          </div>
+          <a href="tel:09120000000" class="inline-flex items-center gap-2 text-xs px-4 py-2 rounded-xl bg-white text-slate-900 font-semibold shadow-glow hover:-translate-y-0.5 transition">📞 تماس: 0912xxxxxxx</a>
+        </div>
+        <p class="text-base text-slate-200 leading-relaxed">لیموناد تازه، دمنوش نعنا و خاکشیر. برای هماهنگی تماس بگیرید. حضور ثابت در عصرها؛ پرداخت فقط در محل.</p>
+        <div class="grid gap-3 sm:grid-cols-4 text-xs">
+          <div class="aspect-[4/3] rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">عکس ۱</div>
+          <div class="aspect-[4/3] rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">عکس ۲</div>
+          <div class="aspect-[4/3] rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">عکس ۳</div>
+          <div class="aspect-[4/3] rounded-2xl border border-white/10 overflow-hidden bg-slate-900/70">
+            <div class="h-full w-full flex flex-col">
+              <div class="flex-1 bg-slate-800 flex items-center justify-center text-slate-300 text-sm">ویدیو</div>
+              <button class="bg-teal-300 text-slate-900 text-xs font-semibold py-2 hover:bg-teal-200 transition">پخش</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <section class="rounded-3xl bg-white/5 border border-white/10 p-5 sm:p-7 shadow-2xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-lg font-bold">موقعیت فروشنده</h2>
+            <p class="text-xs text-slate-300">لوکیشن تقریبی روی نقشه؛ پیش از مراجعه هماهنگ کنید.</p>
+          </div>
+          <span class="text-xs text-teal-200 bg-white/5 px-3 py-1 rounded-full ring-1 ring-white/10">بدون فروش آنلاین</span>
+        </div>
+        <div id="mapBox" class="relative rounded-2xl bg-slate-900/70 border border-white/10 h-72 overflow-hidden">
+          <div class="absolute bottom-3 left-3 text-[11px] bg-slate-900/80 px-3 py-2 rounded-xl border border-white/10 text-white z-10">
+            <div>lat: <span id="latValue">35.77600</span></div>
+            <div>lng: <span id="lngValue">51.41800</span></div>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400">این موقعیت توسط فروشنده ثبت شده است. برای اطمینان از حضور، قبل از مراجعه تماس بگیرید.</p>
+      </section>
+
+      <section class="rounded-3xl bg-white/5 border border-white/10 p-5 sm:p-7 shadow-2xl space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="space-y-1">
+            <h2 class="text-lg font-bold">نظرات و امتیاز</h2>
+            <p class="text-xs text-slate-300">بازخورد خریداران حضوری / تماس مستقیم</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-3xl font-extrabold text-white">4.8</div>
+            <div class="flex flex-col text-xs text-slate-300 leading-tight">
+              <span>میانگین از ۵</span>
+              <span class="text-teal-200">+124 رأی</span>
+            </div>
+          </div>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-[1fr_1.1fr]">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-slate-200">۵ ستاره</span>
+              <div class="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-teal-300" style="width: 82%"></div>
+              </div>
+              <span class="text-slate-300">82%</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-slate-200">۴ ستاره</span>
+              <div class="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-teal-200" style="width: 12%"></div>
+              </div>
+              <span class="text-slate-300">12%</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-slate-200">۳ ستاره</span>
+              <div class="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-amber-200" style="width: 4%"></div>
+              </div>
+              <span class="text-slate-300">4%</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-slate-200">۲ ستاره</span>
+              <div class="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-amber-300" style="width: 1%"></div>
+              </div>
+              <span class="text-slate-300">1%</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-slate-200">۱ ستاره</span>
+              <div class="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-rose-300" style="width: 1%"></div>
+              </div>
+              <span class="text-slate-300">1%</span>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <article class="rounded-2xl bg-white/5 border border-white/10 p-3 space-y-2">
+              <div class="flex items-center gap-2 text-sm font-semibold text-white">۵★<span class="text-slate-300 text-xs">— سارا</span></div>
+              <p class="text-sm text-slate-200 leading-relaxed">لیموناد خنک و عالی، برخورد خیلی خوب. حتماً قبل رفتن تماس بگیرید تا حضورش را چک کنید.</p>
+              <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                <span>دیروز · تحویل در محل</span>
+                <div class="flex items-center gap-2">
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-teal-200 hover:bg-white/15 text-[11px]" type="button">👍 24</button>
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-amber-200 hover:bg-white/15 text-[11px]" type="button">👎 1</button>
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-white hover:bg-white/15 text-[11px]" type="button">پاسخ</button>
+                </div>
+              </div>
+            </article>
+            <article class="rounded-2xl bg-white/5 border border-white/10 p-3 space-y-2">
+              <div class="flex items-center gap-2 text-sm font-semibold text-white">۵★<span class="text-slate-300 text-xs">— مهدی</span></div>
+              <p class="text-sm text-slate-200 leading-relaxed">دمنوش نعنا خیلی خوش‌طعم بود. قیمت منصفانه و آماده سریع.</p>
+              <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                <span>۳ روز پیش · تماس مستقیم</span>
+                <div class="flex items-center gap-2">
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-teal-200 hover:bg-white/15 text-[11px]" type="button">👍 12</button>
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-amber-200 hover:bg-white/15 text-[11px]" type="button">👎 0</button>
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-white hover:bg-white/15 text-[11px]" type="button">پاسخ</button>
+                </div>
+              </div>
+            </article>
+            <article class="rounded-2xl bg-white/5 border border-white/10 p-3 space-y-2">
+              <div class="flex items-center gap-2 text-sm font-semibold text-white">۴★<span class="text-slate-300 text-xs">— نرگس</span></div>
+              <p class="text-sm text-slate-200 leading-relaxed">کمی شلوغ بود و دیر رسیدم، ولی کیفیت خوب بود. بهتره ساعت حضور دقیق‌تر در پروفایل نوشته شود.</p>
+              <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                <span>۱ هفته پیش · تحویل حضوری</span>
+                <div class="flex items-center gap-2">
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-teal-200 hover:bg-white/15 text-[11px]" type="button">👍 6</button>
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-amber-200 hover:bg-white/15 text-[11px]" type="button">👎 1</button>
+                  <button class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-white hover:bg-white/15 text-[11px]" type="button">پاسخ</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <form class="space-y-3 rounded-2xl bg-white/5 border border-dashed border-white/20 p-4 text-sm" onsubmit="event.preventDefault(); alert('فرم نمونه است؛ به بک‌اند متصل کنید.');">
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-slate-300">امتیاز:</div>
+            <div class="flex items-center gap-1">
+              <input type="range" min="1" max="5" value="5" class="w-40 accent-teal-300" oninput="ratingValue.textContent = this.value + '★';" />
+              <span id="ratingValue" class="text-xs text-teal-200">5★</span>
+            </div>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <input type="text" placeholder="نام شما" class="w-full rounded-xl bg-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" />
+            <input type="text" placeholder="نوع تعامل (مثلاً تحویل حضوری)" class="w-full rounded-xl bg-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" />
+          </div>
+          <textarea rows="3" placeholder="تجربه شما..." class="w-full rounded-xl bg-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70"></textarea>
+          <div class="space-y-2">
+            <label class="text-[11px] text-slate-300">فایل رسانه (اختیاری: عکس/ویدیو)</label>
+            <input type="file" accept="image/*,video/*" class="w-full rounded-xl bg-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" />
+          </div>
+          <button type="submit" class="w-full rounded-xl bg-teal-300 text-slate-900 font-semibold py-2.5 text-sm hover:-translate-y-0.5 transition-all shadow-glow">ثبت نظر</button>
+          <p class="text-[11px] text-slate-400">این فرم نمونه است؛ برای ذخیره واقعی، به API خود متصل کنید.</p>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-300">
+      <div class="flex items-center gap-2 font-semibold text-white">دستفروش</div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="hover:text-teal-200">خانه</a>
+        <a href="auth.html" class="hover:text-teal-200">ثبت‌نام فروشنده</a>
+      </div>
+      <div class="text-xs text-slate-400">صرفاً نمایش اطلاعات؛ پرداخت در پلتفرم نیست.</div>
+    </div>
+  </footer>
+
+  <script>
+    // نمونه داده اولیه
+    const lat = 35.776;
+    const lng = 51.418;
+    const mapBox = document.getElementById('mapBox');
+    const latValue = document.getElementById('latValue');
+    const lngValue = document.getElementById('lngValue');
+    latValue.textContent = lat.toFixed(5);
+    lngValue.textContent = lng.toFixed(5);
+
+    // نقشه Leaflet فقط برای نمایش
+    try {
+      const map = L.map(mapBox, { zoomControl: true }).setView([lat, lng], 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+      }).addTo(map);
+      L.marker([lat, lng]).addTo(map);
+      setTimeout(() => map.invalidateSize(), 150);
+    } catch (e) {
+      mapBox.innerHTML = '<div class="absolute inset-0 flex items-center justify-center text-sm text-slate-300 bg-slate-900/80">نقشه لود نشد؛ اینترنت یا CDN را بررسی کنید.</div>';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ویرایش حساب کاربری | دستفروش</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Vazirmatn"', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: { primary: '#2dd4bf', accent: '#fbbf24', dark: '#0f172a' },
+          },
+          boxShadow: { glow: '0 10px 50px -20px rgba(45, 212, 191, 0.6)' },
+        },
+      },
+    };
+  </script>
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(251, 191, 36, 0.12), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(125, 211, 252, 0.1), transparent 35%);
+      filter: blur(40px);
+      z-index: -1;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans">
+  <header class="sticky top-0 z-10 backdrop-blur bg-slate-950/80 border-b border-white/5">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-teal-300 to-amber-300 flex items-center justify-center text-slate-900 font-extrabold shadow-glow">د</div>
+        <div>
+          <div class="font-extrabold text-lg">ویرایش حساب کاربری</div>
+          <div class="text-xs text-slate-400">تغییر نام و رمز عبور</div>
+        </div>
+      </div>
+      <a href="index.html" class="px-4 py-2 rounded-xl bg-white/10 text-white text-xs hover:bg-white/20 transition">بازگشت</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+    <section class="rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold">اطلاعات شخصی</h1>
+          <p class="text-xs text-slate-300">نام اصلی را ویرایش کن.</p>
+        </div>
+        <span class="text-xs text-teal-200 bg-white/5 px-3 py-1 rounded-full ring-1 ring-white/10">نمونه</span>
+      </div>
+      <form class="space-y-4" onsubmit="event.preventDefault(); alert('این فرم نمونه است؛ به بک‌اند خود وصل کنید.');">
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="space-y-2">
+            <label class="text-sm">نام</label>
+            <input type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً علی" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm">نام خانوادگی</label>
+            <input type="text" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="مثلاً رضایی" />
+          </div>
+        </div>
+        <button type="submit" class="w-full sm:w-auto rounded-xl bg-teal-300 text-slate-900 font-semibold px-4 py-3 text-sm hover:-translate-y-0.5 transition-all shadow-glow">ثبت تغییرات نام</button>
+      </form>
+    </section>
+
+    <section class="rounded-3xl bg-white/5 border border-white/10 p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold">تغییر رمز عبور</h2>
+          <p class="text-xs text-slate-300">رمز فعلی را برای تأیید وارد کن.</p>
+        </div>
+      </div>
+      <form class="space-y-4" onsubmit="event.preventDefault(); alert('این فرم نمونه است؛ به بک‌اند خود وصل کنید.');">
+        <div class="space-y-2">
+          <label class="text-sm">رمز فعلی</label>
+          <input type="password" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="رمز فعلی" />
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="space-y-2">
+            <label class="text-sm">رمز جدید</label>
+            <input type="password" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="حداقل ۸ کاراکتر" />
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm">تکرار رمز جدید</label>
+            <input type="password" class="w-full rounded-xl bg-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-300/70" placeholder="تأیید رمز" />
+          </div>
+        </div>
+        <p class="text-xs text-slate-400">برای امنیت، رمز باید حداقل ۸ کاراکتر و ترکیبی از عدد/حرف باشد.</p>
+        <button type="submit" class="w-full sm:w-auto rounded-xl bg-amber-300 text-slate-900 font-semibold px-4 py-3 text-sm hover:-translate-y-0.5 transition-all shadow-lg shadow-amber-200/30">ثبت تغییر رمز</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
